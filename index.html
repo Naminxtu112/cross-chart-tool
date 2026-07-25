@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="軸セットを選び、文字やマーカーを配置してPNG画像として保存できる十字図作成ツールです。">
+  <title>十字図作成ツール</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="axis-sets.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <h1>十字図作成ツール</h1>
+      <p>図中をクリックして文字を配置し、完成した図をPNG画像として保存できます。</p>
+    </header>
+
+    <section id="start-screen" class="screen start-screen" aria-labelledby="start-title">
+      <div class="panel start-panel">
+        <h2 id="start-title">十字図を選択</h2>
+        <p class="help-text">
+          図番号を入力すると指定した図を表示します。何も入力せずに開始すると、登録済みの図からランダムに表示します。
+        </p>
+
+        <label class="field-label" for="start-set-number">図番号（任意）</label>
+        <input
+          id="start-set-number"
+          class="text-input"
+          type="number"
+          min="1"
+          step="1"
+          inputmode="numeric"
+          placeholder="空欄ならランダム"
+        >
+
+        <button id="start-button" class="button button-primary button-wide" type="button">
+          十字図を開く
+        </button>
+
+        <p id="start-error" class="message message-error" aria-live="polite"></p>
+      </div>
+
+      <div class="panel">
+        <h2>利用可能な図番号</h2>
+        <p class="help-text">
+          番号と軸内容を確認できます。「この番号を入力」を押すと、上の番号欄へ反映されます。
+        </p>
+        <div id="set-list" class="set-list"></div>
+      </div>
+    </section>
+
+    <section id="editor-screen" class="screen editor-screen hidden" aria-labelledby="editor-title">
+      <div class="editor-header">
+        <div>
+          <div class="current-set-line">
+            <span class="number-badge">図番号 <span id="current-set-number">-</span></span>
+            <span id="current-set-name" class="current-set-description"></span>
+          </div>
+          <p id="editor-title" class="help-text editor-help">
+            図中をクリックし、文字・マーカー・色を設定して配置します。配置済みの項目はクリックして編集できます。
+          </p>
+        </div>
+
+        <button id="save-png" class="button button-primary" type="button">
+          画像として保存
+        </button>
+      </div>
+
+      <div class="editor-layout">
+        <section class="diagram-section" aria-label="十字図編集領域">
+          <svg
+            id="diagram"
+            class="diagram"
+            viewBox="0 0 900 620"
+            role="img"
+            aria-label="編集可能な十字図"
+          >
+            <defs>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z"></path>
+              </marker>
+            </defs>
+
+            <rect id="diagram-background" x="0" y="0" width="900" height="620" rx="16"></rect>
+            <text id="diagram-number" x="28" y="36">No. -</text>
+
+            <g id="axes">
+              <line x1="75" y1="310" x2="825" y2="310" marker-start="url(#arrow)" marker-end="url(#arrow)"></line>
+              <line x1="450" y1="555" x2="450" y2="65" marker-start="url(#arrow)" marker-end="url(#arrow)"></line>
+              <circle cx="450" cy="310" r="4"></circle>
+            </g>
+
+            <g id="axis-labels">
+              <text id="label-top" x="450" y="38" text-anchor="middle"></text>
+              <text id="label-bottom" x="450" y="598" text-anchor="middle"></text>
+              <text id="label-left" x="48" y="310" text-anchor="middle" transform="rotate(-90 48 310)"></text>
+              <text id="label-right" x="852" y="310" text-anchor="middle" transform="rotate(90 852 310)"></text>
+            </g>
+
+            <g id="items-layer"></g>
+
+            <g id="pending-marker" hidden>
+              <circle cx="0" cy="0" r="9"></circle>
+              <line x1="-15" y1="0" x2="15" y2="0"></line>
+              <line x1="0" y1="-15" x2="0" y2="15"></line>
+            </g>
+          </svg>
+        </section>
+
+        <aside class="control-column" aria-label="編集操作">
+          <section class="panel control-panel">
+            <h2>項目を配置・編集</h2>
+            <p id="position-status" class="help-text">最初に図中をクリックしてください。</p>
+
+            <label class="field-label" for="item-text">表示する文字</label>
+            <input id="item-text" class="text-input" type="text" placeholder="文字を入力" disabled>
+
+            <label class="field-label" for="marker-shape">マーカー形状</label>
+            <select id="marker-shape" class="select-input" disabled>
+              <option value="none" selected>マーカーなし</option>
+              <option value="circle">● 塗りつぶし丸</option>
+              <option value="circle-open">○ 白抜き丸</option>
+              <option value="square">■ 四角</option>
+              <option value="triangle">▲ 三角</option>
+              <option value="diamond">◆ ひし形</option>
+              <option value="star">★ 星</option>
+            </select>
+
+            <label class="field-label" for="item-color">マーカー・文字色</label>
+            <div class="color-control">
+              <input id="item-color" type="color" value="#2563eb" disabled>
+              <span id="color-value">#2563eb</span>
+            </div>
+
+            <button id="commit-item" class="button button-primary button-wide" type="button" disabled>
+              項目を追加
+            </button>
+            <button id="delete-item" class="button button-danger button-wide" type="button" disabled>
+              選択項目を削除
+            </button>
+            <button id="clear-items" class="button button-secondary button-wide" type="button">
+              配置を全消去
+            </button>
+          </section>
+
+          <section class="panel control-panel">
+            <h2>別の図に切り替える</h2>
+
+            <label class="field-label" for="switch-set-select">図番号</label>
+            <select id="switch-set-select" class="select-input"></select>
+
+            <button id="switch-number-button" class="button button-secondary button-wide" type="button">
+              選択した図に切替
+            </button>
+            <button id="switch-random-button" class="button button-secondary button-wide" type="button">
+              ランダムに切替
+            </button>
+
+            <p class="help-text warning-text">図を切り替えると、現在の配置内容は消去されます。</p>
+          </section>
+
+          <p id="live-status" class="message" aria-live="polite"></p>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
