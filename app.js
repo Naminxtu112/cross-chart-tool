@@ -9,6 +9,7 @@
     startNumber: document.getElementById("start-set-number"),
     startButton: document.getElementById("start-button"),
     startError: document.getElementById("start-error"),
+    setList: document.getElementById("set-list"),
     switchSetSelect: document.getElementById("switch-set-select"),
     switchNumberButton: document.getElementById("switch-number-button"),
     switchRandomButton: document.getElementById("switch-random-button"),
@@ -20,6 +21,7 @@
     svg: document.getElementById("diagram"),
     itemsLayer: document.getElementById("items-layer"),
     pendingMarker: document.getElementById("pending-marker"),
+    diagramTitle: document.getElementById("diagram-title"),
     diagramNumber: document.getElementById("diagram-number"),
     labelTop: document.getElementById("label-top"),
     labelBottom: document.getElementById("label-bottom"),
@@ -59,6 +61,7 @@
       const valid = Number.isInteger(set.id)
         && set.id > 0
         && typeof set.name === "string"
+        && (typeof set.title === "undefined" || typeof set.title === "string")
         && typeof set.top === "string"
         && typeof set.bottom === "string"
         && typeof set.left === "string"
@@ -75,6 +78,11 @@
       return false;
     }
 
+    axisSets.forEach((set) => {
+      if (typeof set.title !== "string") {
+        set.title = "";
+      }
+    });
     axisSets.sort((a, b) => a.id - b.id);
     return true;
   }
@@ -84,9 +92,38 @@
   }
 
   function buildSetSelectors() {
+    elements.setList.replaceChildren();
     elements.switchSetSelect.replaceChildren();
 
     axisSets.forEach((set) => {
+      const row = document.createElement("div");
+      row.className = "set-row";
+
+      const textArea = document.createElement("div");
+
+      const title = document.createElement("div");
+      title.className = "set-row-title";
+      title.textContent = `図番号 ${set.id}`;
+
+      const description = document.createElement("div");
+      description.className = "set-row-description";
+      description.textContent = axisDescription(set);
+
+      textArea.append(title, description);
+
+      const inputButton = document.createElement("button");
+      inputButton.type = "button";
+      inputButton.className = "button button-secondary";
+      inputButton.textContent = "この番号を入力";
+      inputButton.addEventListener("click", () => {
+        elements.startNumber.value = String(set.id);
+        elements.startNumber.focus();
+        elements.startError.textContent = "";
+      });
+
+      row.append(textArea, inputButton);
+      elements.setList.appendChild(row);
+
       const option = document.createElement("option");
       option.value = String(set.id);
       option.textContent = String(set.id);
@@ -151,6 +188,7 @@
     elements.currentSetNumber.textContent = String(set.id);
     elements.currentSetName.textContent = `${set.name}：${axisDescription(set)}`;
     elements.switchSetSelect.value = String(set.id);
+    elements.diagramTitle.textContent = set.title;
     elements.diagramNumber.textContent = `No. ${set.id}`;
     elements.labelTop.textContent = set.top;
     elements.labelBottom.textContent = set.bottom;
@@ -184,7 +222,7 @@
   function svgPoint(event) {
     const matrix = elements.svg.getScreenCTM();
     if (!matrix) {
-      return { x: 450, y: 310 };
+      return { x: 450, y: 365 };
     }
 
     const point = elements.svg.createSVGPoint();
@@ -199,7 +237,7 @@
 
   function beginNewItem(x, y) {
     const safeX = clamp(x, 85, 815);
-    const safeY = clamp(y, 75, 545);
+    const safeY = clamp(y, 130, 600);
 
     state.selectedId = null;
     state.pending = { x: safeX, y: safeY };
@@ -210,7 +248,7 @@
     resetEditingControls();
     setEditingControlsEnabled(true);
     elements.deleteButton.disabled = true;
-    elements.positionStatus.textContent = `新規配置位置：X ${Math.round(safeX - 450)}、Y ${Math.round(310 - safeY)}`;
+    elements.positionStatus.textContent = `新規配置位置：X ${Math.round(safeX - 450)}、Y ${Math.round(365 - safeY)}`;
     elements.itemText.focus();
     renderItems();
   }
@@ -397,7 +435,7 @@
     }
 
     item.x = clamp(item.x + dx * step, 85, 815);
-    item.y = clamp(item.y + dy * step, 75, 545);
+    item.y = clamp(item.y + dy * step, 130, 600);
     renderItems();
   }
 
@@ -405,7 +443,7 @@
     const clone = elements.svg.cloneNode(true);
     clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     clone.setAttribute("width", "1800");
-    clone.setAttribute("height", "1240");
+    clone.setAttribute("height", "1360");
     clone.removeAttribute("class");
 
     clone.querySelector("#pending-marker")?.remove();
@@ -423,6 +461,7 @@
       node.setAttribute("fill", "#111111");
     });
 
+    clone.querySelector("#diagram-title")?.setAttribute("fill", "#111111");
     clone.querySelector("#diagram-number")?.setAttribute("fill", "#555555");
     clone.querySelectorAll("#axis-labels text").forEach((node) => {
       node.setAttribute("fill", "#111111");
@@ -432,19 +471,24 @@
     style.textContent = `
       #axes line { stroke-width: 2.5; }
       #axes circle { fill: #111111; stroke: #111111; }
-      #diagram-number {
+      #diagram-title {
         font-family: "Yomogi", "Comic Sans MS", cursive;
-        font-size: 20px;
+        font-size: 28px;
         font-weight: 400;
+      }
+      #diagram-number {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
       }
       #axis-labels text {
-        font-family: "Yomogi", "Comic Sans MS", cursive;
-        font-size: 24px;
-        font-weight: 400;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+        font-size: 21px;
+        font-weight: 600;
       }
       .diagram-item text {
-        font-family: "Yomogi", "Comic Sans MS", cursive;
-        font-size: 22px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+        font-size: 19px;
       }
     `;
     clone.insertBefore(style, clone.firstChild);
@@ -487,7 +531,7 @@
         try {
           const canvas = document.createElement("canvas");
           canvas.width = 1800;
-          canvas.height = 1240;
+          canvas.height = 1360;
           const context = canvas.getContext("2d");
 
           if (!context) {
@@ -587,7 +631,7 @@
     }
 
     item.x = clamp(point.x - state.dragOffsetX, 85, 815);
-    item.y = clamp(point.y - state.dragOffsetY, 75, 545);
+    item.y = clamp(point.y - state.dragOffsetY, 130, 600);
     renderItems();
   });
 
