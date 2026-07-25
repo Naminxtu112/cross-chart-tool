@@ -15,6 +15,7 @@
   --focus: #6b8eff;
   --shadow: 0 8px 24px rgba(25, 36, 56, 0.08);
   --radius: 14px;
+  --diagram-font: "Yomogi", "Comic Sans MS", cursive;
 }
 
 * {
@@ -89,10 +90,8 @@ select:focus-visible {
 }
 
 .start-screen {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.8fr) minmax(320px, 1.2fr);
-  gap: 18px;
-  align-items: start;
+  width: min(520px, 100%);
+  margin: 0 auto;
 }
 
 .panel {
@@ -199,43 +198,15 @@ select:focus-visible {
   color: var(--danger);
 }
 
-.set-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.set-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: #fbfcfe;
-}
-
-.set-row-title {
-  font-weight: 700;
-}
-
-.set-row-description {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.5;
-}
-
-.set-row .button {
-  flex: 0 0 auto;
+.editor-screen {
+  display: block;
 }
 
 .editor-header {
   display: flex;
   justify-content: space-between;
-  gap: 18px;
   align-items: flex-end;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
@@ -249,11 +220,12 @@ select:focus-visible {
 .number-badge {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  padding: 5px 11px;
+  gap: 6px;
+  padding: 6px 10px;
   border-radius: 999px;
   background: var(--primary-soft);
-  color: var(--primary-hover);
+  color: var(--primary);
+  font-size: 0.9rem;
   font-weight: 700;
 }
 
@@ -268,7 +240,7 @@ select:focus-visible {
 
 .editor-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 286px;
+  grid-template-columns: minmax(0, 1fr) 290px;
   gap: 18px;
   align-items: start;
 }
@@ -278,15 +250,14 @@ select:focus-visible {
 }
 
 .diagram {
-  display: block;
   width: 100%;
   height: auto;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius);
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   background: var(--diagram-background);
-  box-shadow: var(--shadow);
   touch-action: none;
-  user-select: none;
+  box-shadow: var(--shadow);
 }
 
 #diagram-background {
@@ -295,9 +266,8 @@ select:focus-visible {
 
 #diagram-number {
   fill: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-  font-size: 18px;
-  font-weight: 600;
+  font-family: var(--diagram-font);
+  font-size: 20px;
 }
 
 #axes {
@@ -309,14 +279,18 @@ select:focus-visible {
 
 #arrow path {
   fill: currentColor;
-  stroke: none;
 }
 
 #axis-labels {
   fill: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-  font-size: 21px;
-  font-weight: 600;
+  font-family: var(--diagram-font);
+  font-size: 24px;
+}
+
+#axis-labels text {
+  paint-order: stroke;
+  stroke: rgba(255,255,255,0.4);
+  stroke-width: 0.5;
 }
 
 .diagram-item {
@@ -328,26 +302,20 @@ select:focus-visible {
 }
 
 .diagram-item text {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-  font-size: 19px;
-  pointer-events: none;
+  font-family: var(--diagram-font);
+  font-size: 22px;
 }
 
-.diagram-item .selection-ring {
+.selection-ring {
   fill: none;
-  stroke: var(--primary);
+  stroke: var(--focus);
   stroke-width: 2;
   stroke-dasharray: 5 4;
-  pointer-events: none;
-}
-
-#pending-marker[hidden] {
-  display: none;
 }
 
 #pending-marker {
   fill: none;
-  stroke: var(--primary);
+  stroke: var(--focus);
   stroke-width: 2;
   stroke-dasharray: 4 3;
   pointer-events: none;
@@ -355,19 +323,19 @@ select:focus-visible {
 
 .control-column {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .control-panel {
-  box-shadow: none;
+  display: block;
 }
 
 .color-control {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 48px;
-  padding: 7px 10px;
+  min-height: 44px;
+  padding: 6px 10px;
   border: 1px solid var(--border-strong);
   border-radius: 10px;
   background: #ffffff;
@@ -375,63 +343,47 @@ select:focus-visible {
 
 .color-control input[type="color"] {
   width: 52px;
-  height: 34px;
+  height: 32px;
   padding: 0;
   border: 0;
   background: transparent;
-}
-
-.color-control span {
-  color: var(--muted);
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 0.9rem;
 }
 
 .warning-text {
   margin-top: 12px;
 }
 
-@media (max-width: 900px) {
-  .start-screen,
+@media (max-width: 920px) {
   .editor-layout {
     grid-template-columns: 1fr;
   }
 
   .control-column {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .control-column > .message {
-    grid-column: 1 / -1;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: start;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .page-shell {
-    width: min(100% - 20px, 1180px);
-    padding-top: 18px;
+    width: min(100% - 20px, 100%);
+    padding: 20px 0 32px;
   }
 
   .panel {
     padding: 16px;
   }
 
-  .set-row,
   .editor-header {
-    align-items: stretch;
     flex-direction: column;
-  }
-
-  .set-row .button,
-  .editor-header > .button {
-    width: 100%;
-  }
-
-  .control-column {
-    grid-template-columns: 1fr;
+    align-items: stretch;
   }
 
   #axis-labels {
-    font-size: 18px;
+    font-size: 20px;
+  }
+
+  .diagram-item text {
+    font-size: 19px;
   }
 }

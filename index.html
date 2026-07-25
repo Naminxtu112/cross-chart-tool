@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="軸セットを選び、文字やマーカーを配置してPNG画像として保存できる十字図作成ツールです。">
   <title>十字図作成ツール</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="axis-sets.js" defer></script>
   <script src="app.js" defer></script>
@@ -39,14 +42,6 @@
         </button>
 
         <p id="start-error" class="message message-error" aria-live="polite"></p>
-      </div>
-
-      <div class="panel">
-        <h2>利用可能な図番号</h2>
-        <p class="help-text">
-          番号と軸内容を確認できます。「この番号を入力」を押すと、上の番号欄へ反映されます。
-        </p>
-        <div id="set-list" class="set-list"></div>
       </div>
     </section>
 
