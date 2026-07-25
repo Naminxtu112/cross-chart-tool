@@ -19,38 +19,92 @@
 window.AXIS_SETS = [
   {
     id: 1,
-    name: "セット1",
-    title: "タイトル",
-    top: "理論的",
-    bottom: "実践的",
-    left: "個人的",
-    right: "社会的"
+    name: "No. 1",
+    title: "キスしたいとき",
+    top: "勝手にする",
+    bottom: "許可をとる",
+    left: "ねっとりする",
+    right: "あっさりする"
   },
   {
     id: 2,
-    name: "セット2",
-    title: "",
-    top: "長期的",
-    bottom: "短期的",
-    left: "低リスク",
-    right: "高リスク"
+    name: "No. 2",
+    title: "愛が……",
+    top: "重い",
+    bottom: "重くない",
+    left: "嫉妬深い",
+    right: "ドライ"
   },
   {
     id: 3,
-    name: "セット3",
-    title: "",
-    top: "革新的",
-    bottom: "保守的",
-    left: "専門的",
-    right: "一般的"
+    name: "No. 3",
+    title: "相手が色っぽい恰好をして居たら……",
+    top: "怒る",
+    bottom: "喜ぶ",
+    left: "照れる",
+    right: "興奮する"
   },
   {
     id: 4,
-    name: "セット4",
-    title: "",
-    top: "抽象的",
-    bottom: "具体的",
-    left: "受動的",
-    right: "能動的"
+    name: "No. 4",
+    title: "喧嘩したとき",
+    top: "自分から謝る",
+    bottom: "相手が謝るを待つ",
+    left: "態度に出す",
+    right: "態度に出さない"
+  },
+  {
+    id: 5,
+    name: "No. 5",
+    title: "あなたの推したちは……",
+    top: "カッコイイ",
+    bottom: "カワイイ",
+    left: "しっかりしてる",
+    right: "天然"
+  },
+  {
+    id: 6,
+    name: "No. 6",
+    title: "人間関係において",
+    top: "過去を振り返る",
+    bottom: "未来を見ている",
+    left: "社交的",
+    right: "内向的"
+  },
+  {
+    id: 7,
+    name: "No. 7",
+    title: "大事な人の姿をした敵を……",
+    top: "倒せる",
+    bottom: "倒せない",
+    left: "迷う",
+    right: "躊躇しない"
+  },
+  {
+    id: 8,
+    name: "No. 8",
+    title: "中身と外見について",
+    top: "中身がカッコイイ",
+    bottom: "中身が可愛い",
+    left: "外見がカッコイイ",
+    right: "外見が可愛い"
+  },
+  {
+    id: 9,
+    name: "No. 9",
+    title: "自分が犠牲になれば相手が助かるというシチュエーションで……",
+    top: "犠牲になる",
+    bottom: "犠牲にならない",
+    left: "躊躇する",
+    right: "迷わない"
+  },
+  {
+    id: 10,
+    name: "No. 10",
+    title: "性格は……",
+    top: "自由人",
+    bottom: "真面目",
+    left: "静か",
+    right: "騒がしい"
   }
 ];
