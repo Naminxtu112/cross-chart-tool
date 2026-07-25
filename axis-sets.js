@@ -20,11 +20,11 @@ window.AXIS_SETS = [
   {
     id: 1,
     name: "セット1",
-    title: "「好き」と言われたときの反応は？",
-    top: "冷静",
-    bottom: "うろたえる",
-    left: "喜ぶ",
-    right: "いぶかしむ"
+    title: "",
+    top: "理論的",
+    bottom: "実践的",
+    left: "個人的",
+    right: "社会的"
   },
   {
     id: 2,
@@ -48,15 +48,6 @@ window.AXIS_SETS = [
     id: 4,
     name: "セット4",
     title: "",
-    top: "抽象的",
-    bottom: "具体的",
-    left: "受動的",
-    right: "能動的"
-  },
-  {
-    id: 5,
-    name: "セット5",
-    title: "test",
     top: "抽象的",
     bottom: "具体的",
     left: "受動的",

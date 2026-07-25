@@ -9,7 +9,6 @@
     startNumber: document.getElementById("start-set-number"),
     startButton: document.getElementById("start-button"),
     startError: document.getElementById("start-error"),
-    setList: document.getElementById("set-list"),
     switchSetSelect: document.getElementById("switch-set-select"),
     switchNumberButton: document.getElementById("switch-number-button"),
     switchRandomButton: document.getElementById("switch-random-button"),
@@ -92,38 +91,9 @@
   }
 
   function buildSetSelectors() {
-    elements.setList.replaceChildren();
     elements.switchSetSelect.replaceChildren();
 
     axisSets.forEach((set) => {
-      const row = document.createElement("div");
-      row.className = "set-row";
-
-      const textArea = document.createElement("div");
-
-      const title = document.createElement("div");
-      title.className = "set-row-title";
-      title.textContent = `図番号 ${set.id}`;
-
-      const description = document.createElement("div");
-      description.className = "set-row-description";
-      description.textContent = axisDescription(set);
-
-      textArea.append(title, description);
-
-      const inputButton = document.createElement("button");
-      inputButton.type = "button";
-      inputButton.className = "button button-secondary";
-      inputButton.textContent = "この番号を入力";
-      inputButton.addEventListener("click", () => {
-        elements.startNumber.value = String(set.id);
-        elements.startNumber.focus();
-        elements.startError.textContent = "";
-      });
-
-      row.append(textArea, inputButton);
-      elements.setList.appendChild(row);
-
       const option = document.createElement("option");
       option.value = String(set.id);
       option.textContent = String(set.id);
@@ -477,18 +447,18 @@
         font-weight: 400;
       }
       #diagram-number {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-        font-size: 18px;
-        font-weight: 600;
+        font-family: "Yomogi", "Comic Sans MS", cursive;
+        font-size: 20px;
+        font-weight: 400;
       }
       #axis-labels text {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-        font-size: 21px;
-        font-weight: 600;
+        font-family: "Yomogi", "Comic Sans MS", cursive;
+        font-size: 24px;
+        font-weight: 400;
       }
       .diagram-item text {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-        font-size: 19px;
+        font-family: "Yomogi", "Comic Sans MS", cursive;
+        font-size: 22px;
       }
     `;
     clone.insertBefore(style, clone.firstChild);

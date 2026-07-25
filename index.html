@@ -9,8 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Yomogi&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="axis-sets.js" defer></script>
-  <script src="app.js" defer></script>
 </head>
 <body>
   <main class="page-shell">
@@ -161,5 +159,31 @@
       </div>
     </section>
   </main>
+
+  <script>
+    (() => {
+      const version = Date.now();
+      const statusTarget = document.getElementById("start-error");
+
+      const axisScript = document.createElement("script");
+      axisScript.src = `axis-sets.js?v=${version}`;
+      axisScript.onload = () => {
+        const appScript = document.createElement("script");
+        appScript.src = `app.js?v=${version}`;
+        appScript.onerror = () => {
+          if (statusTarget) {
+            statusTarget.textContent = "プログラムを読み込めませんでした。ページを再読み込みしてください。";
+          }
+        };
+        document.body.appendChild(appScript);
+      };
+      axisScript.onerror = () => {
+        if (statusTarget) {
+          statusTarget.textContent = "軸セットを読み込めませんでした。axis-sets.jsを確認してください。";
+        }
+      };
+      document.body.appendChild(axisScript);
+    })();
+  </script>
 </body>
 </html>
