@@ -21,8 +21,8 @@ window.AXIS_SETS = [
     name: "セット1",
     top: "理論的",
     bottom: "実践的",
-    left: "個人的",
-    right: "社会的"
+    left: "協調性高い",
+    right: "協調性ない"
   },
   {
     id: 2,
@@ -42,6 +42,14 @@ window.AXIS_SETS = [
   },
   {
     id: 4,
+    name: "セット4",
+    top: "抽象的",
+    bottom: "具体的",
+    left: "受動的",
+    right: "能動的"
+  },
+  {
+    id: 5,
     name: "セット4",
     top: "抽象的",
     bottom: "具体的",
