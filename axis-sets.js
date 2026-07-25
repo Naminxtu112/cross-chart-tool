@@ -8,6 +8,7 @@
  * {
  *   id: 5,
  *   name: "セット5",
+ *   title: "○○の時の反応は？", // 空欄なら ""
  *   top: "上側の意味",
  *   bottom: "下側の意味",
  *   left: "左側の意味",
@@ -19,14 +20,16 @@ window.AXIS_SETS = [
   {
     id: 1,
     name: "セット1",
+    title: "",
     top: "理論的",
     bottom: "実践的",
-    left: "協調性高い",
-    right: "協調性ない"
+    left: "個人的",
+    right: "社会的"
   },
   {
     id: 2,
     name: "セット2",
+    title: "",
     top: "長期的",
     bottom: "短期的",
     left: "低リスク",
@@ -35,6 +38,7 @@ window.AXIS_SETS = [
   {
     id: 3,
     name: "セット3",
+    title: "",
     top: "革新的",
     bottom: "保守的",
     left: "専門的",
@@ -43,14 +47,7 @@ window.AXIS_SETS = [
   {
     id: 4,
     name: "セット4",
-    top: "抽象的",
-    bottom: "具体的",
-    left: "受動的",
-    right: "能動的"
-  },
-  {
-    id: 5,
-    name: "セット4",
+    title: "",
     top: "抽象的",
     bottom: "具体的",
     left: "受動的",
