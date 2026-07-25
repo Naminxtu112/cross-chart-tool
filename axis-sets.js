@@ -20,7 +20,7 @@ window.AXIS_SETS = [
   {
     id: 1,
     name: "セット1",
-    title: "",
+    title: "タイトル",
     top: "理論的",
     bottom: "実践的",
     left: "個人的",
